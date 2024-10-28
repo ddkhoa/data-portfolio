@@ -59,10 +59,10 @@ I customized the tooltip to display clear information, including the town's name
 
 ## Error encountered & Solutions
 
-#### Manual axis tick
+### Manual axis tick
 In some charts, I noticed that the gap between values was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks shifted significantly when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap even with filters.
 
-#### Update the visualization when the dataset change
+### Update the visualization when the dataset change
 Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
 
 ## Results
@@ -73,7 +73,7 @@ The completed dashboard can be viewed on Tableau Public: [Bouches-du-Rhône, Fra
 ## Key Learnings & Skills Developed
 
 This project strengthened my data proficiency by enabling me to move beyond tutorials and solve real-world data challenges. Key skills developed include:
-- Explored DuckDB for data transformation and cleaning tasks..
+- Explored DuckDB for data transformation and cleaning tasks.
 - Enhanced Tableau skills with **dual-axis charts** and **custom calculated fields**, improved troubleshooting abilities.
 - Applied visualization principles from *Communicating with Data*, which helped to refine clarity and improve the dashboard’s interpretability.
 
