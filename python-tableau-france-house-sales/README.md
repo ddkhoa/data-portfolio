@@ -65,6 +65,11 @@ In some charts, I noticed that the gap between values was too small, so I applie
 #### Update the visualization when the dataset change
 Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
 
+## Results
+The completed dashboard can be viewed on Tableau Public: [Bouches-du-Rhône, France House Sales Price Dashboard](https://public.tableau.com/app/profile/khoa8102/viz/bouches-du-rhone-house-sales/Dashboard). Below is a screenshot:
+
+![Bouches-du-Rhône, France House Sales Price Dashboard](./bouches-du-rhone-house-sales-dashboard.png)
+
 ## Key Learnings & Skills Developed
 
 This project strengthened my data proficiency by enabling me to move beyond tutorials and solve real-world data challenges. Key skills developed include:
