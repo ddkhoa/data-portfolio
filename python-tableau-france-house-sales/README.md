@@ -50,7 +50,7 @@ I designed the dashboard with simplicity and clarity in mind, applying key visua
 - **Room Count Distribution:** This histogram shows the distribution of properties by room count. To avoid outliers (properties with up to 54 rooms) skewing the histogram, I grouped values above six into a single category, following techniques from [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y).
 
 ### Error encountered & Solutions
-Of course, it's not funny without unexpected errors. While building the dashboard, I ran into the following errors:
+Of course, it's not funny without unexpected errors. While building the dashboard, I ran into the following problems:
 
 - **Manual Axis Ticks:** In some charts, I noticed that the gap between the ticks in y-axis was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks **shifted significantly** when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap.
 - **Updating Data Sources in Tableau:** Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
