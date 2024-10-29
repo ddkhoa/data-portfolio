@@ -53,8 +53,8 @@ I designed the dashboard with simplicity and clarity in mind, applying key visua
 Of course, it's not funny without unexpected errors. While building the dashboard, I ran into the following problems:
 
 - **Manual Axis Ticks:** In some charts, I noticed that the gap between the ticks in y-axis was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks **shifted significantly** when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap.
-- **Updating Data Sources in Tableau:** Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
-- **Dashboard Formatting:** When adding filters, I encountered inconsistencies in color settings. The funny thing is that I found the place to change the color, but when I closed it, I couldn't find it back.
+- **Updating Data Sources in Tableau:** Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: **Unexpected Error [SQLSTATE:42601]**. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
+- **Dashboard Formatting:** When I added filters after applying the format to other elements on the dashboard, they did not inherit the same color. The funny thing is that I found the place to change the color, but when I closed it, I couldn't find it back.
 
 
 ### Results
