@@ -1,22 +1,22 @@
-# Data Visualization Project: House Prices in Bouches-du-Rhone, France
+# Data Visualization: Bouches-du-Rhône Department, France House Prices Dashboard
 
-## Context - A Hands-On Approach to Data Visualization
-In my journey to improve data visualization skills, I decided to turn theory into practice after reading chapters from *Communicating with Data*. Though insightful, I found the book a bit theoretical, so I supplemented it with Tableau tutorials ([this video](https://www.youtube.com/watch?v=KlAKAarfLRQ&t=276s) and [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y)). Once I grasped the basics, I applied key concepts independently by building this dashboard, going beyond tutorial steps to troubleshoot and overcome unexpected challenges.
+### Context
+In my journey to learn data visualization, I decided to turn theory into practice after reading chapters from *Communicating with Data*. Though insightful, I found the book a bit theoretical, so I supplemented it with Tableau tutorials ([this video](https://www.youtube.com/watch?v=KlAKAarfLRQ&t=276s) and [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y)). While following the tutorial, I made some modest changes based on what I learned from the book.
+We know that simply following the instruction does not enhance the competence, especially when unexpected errors occur. So, in the next phase, I pick a dataset comparable to the one I worked on previously and create the dashboard myself.
 
-## Dataset
-The dataset, ["Demandes de valeurs foncières géolocalisées"](https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/#/information), is an open-source repository from the French government containing property sales data from 2019 to the present, updated biannually. This dataset provided a valuable opportunity to:
+### Exploring the Dataset
 
-- Work with real-world data: cleaning, transforming, and analyzing a dataset.
-- Apply the visualization principles learned to design a clear and impactful dashboard.
+I picked a dataset from the French government's open data platform, ["Demandes de valeurs foncières géolocalisées"](https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/#/information), containing real estate transactions from 2019 to the present. This dataset, updated biannually, provided a wealth of information for understanding the trend in French housing prices. In my analysis, I only use data from the Bouches-du-Rhône department in the south of the country.
+ 
+During data exploration, I identified key transformations:
 
-Key Data Considerations:
-- **Deduplication**: Some rows had identical values, which I removed.
-- **Transaction Details**: Each `id_mutation` could include multiple property parts with a shared price value. I adjusted these values to reflect property-specific prices by prorating them based on `surface_reelle_bati`.
-- **Property & Transaction Types**: Limited the analysis to relevant property types (`Appartement` and `Maison`) and standard house sale transactions (`Vente`, `Vente en l'état futur d'achèvement`).
-- **Measures**: For insights, I focused on `nombre_pieces_principales` (number of rooms) and `valeur_fonciere` (price).
+- **Data Deduplication:** Some rows were exact duplicates, so deduplication was essential for accurate analysis.
+- **Unique `id_mutation` Challenge:** The column `id_mutation` is not unique. A single mutation can involve multiple properties. However, it only has one `value_fonciere` (the price), which means that the price represents the total value of all properties in the transaction. Since my analysis focuses on the property level rather than the transaction level, I chose to allocate a price to each part of a mutation proportional to `surface_reelle_bati`.
+- **Property and Transaction Types:** I narrowed the scope to "Appartement" and "Maison" property types, excluding less relevant types such as "Dependance" and "Local industriel" properties. For transactions, I focused on primary sales ("Vente" and "Vente en l'état futur d'achèvement") and excluded others, such as land sales or court-ordered transaction, which could skew pricing trends.
 
-## Data Cleaning & Transformation
-This project presented a chance to explore **DuckDB** for data transformation instead of my usual tool, **Pandas**. DuckDB’s SQL capabilities allowed for efficient data manipulation using a familiar SQL syntax. Here’s a sample of the data cleaning workflow:
+### Data Cleaning and Transformation with DuckDB
+
+This project presented a chance to explore **DuckDB** for data transformation instead of my usual tool, **Pandas**. DuckDB's capabilities allowed for efficient data manipulation using a familiar SQL syntax. Here’s a sample of the data cleaning workflow:
 
 ```python
 import duckdb
@@ -37,40 +37,32 @@ connection.execute("CREATE TABLE house_sales_data_filtered AS"
 # Further deduplication, type conversion, and price calculation
 # ...
 ```
+### Building the Dashboard
 
-## Dashboard Design
-Building this dashboard enhanced my Tableau skills by requiring the implementation of each component from scratch. Key elements of the dashboard include:
+I designed the dashboard with simplicity and clarity in mind, applying key visualization principles from *Communicating with Data*. My aim was to highlight trends and correlations without overwhelming users with information. Here are the dashboard components:
 
-### Median Price vs Transaction Volume Over Time
-- **Purpose**: Analyze trends in property prices from 2019 to 2024 alongside transaction volumes.
-- **Skill Gained**: Implemented dual-axis charts.
+- **Median Price vs. Number of Transactions Evolution:** This dual-axis chart illustrates the trend in median prices alongside transaction volume over time, allowing users quickly identify potential correlations.
+  
+- **Map Visualization:** The interactive map displays median house prices by town, with detailed tooltips showing town names, median price and price per square meter. Users can click on the map to filter the house prices in specific areas.
 
-### Map Visualization by Town
-- **Purpose**: Highlight geographic differences in property prices across towns and enabling users to filter specific towns.
-I customized the tooltip to display clear information, including the town's name, median price, and median price per m².
+- **Price Distribution Chart:** This histogram shows the distribution of house prices. I converted continuous pricing data to categorical bins for the histogram, making the chart easier to understand.
 
-### Distribution of House Prices
-- **Purpose**: Simplify insights into the distribution of house prices.
-- **Skill Gained**: Created Calculated Fields to transform continuous values into categorized price ranges, allowing for a more interpretable histogram that avoids data overload.
+- **Room Count Distribution:** This histogram shows the distribution of properties by room count. To avoid outliers (properties with up to 54 rooms) skewing the histogram, I grouped values above six into a single category, following techniques from [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y).
 
-### Room Distribution
-- **Purpose**: Visualize the distribution of properties by room count and enabling users to filter by the number of rooms.
-- **Skill Gained**: Used Calculated Fields in Tableau to group room counts over six into a single category, which simplified the histogram by reducing the impact of outliers.
+### Error encountered & Solutions
+Of course, it's not funny without unexpected errors. While building the dashboard, I ran into the following errors:
 
-## Error encountered & Solutions
+- **Manual Axis Ticks:** In some charts, I noticed that the gap between the ticks in y-axis was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks **shifted significantly** when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap.
+- **Updating Data Sources in Tableau:** Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
+- **Dashboard Formatting:** When adding filters, I encountered inconsistencies in color settings. The funny thing is that I found the place to change the color, but when I closed it, I couldn't find it back.
 
-### Manual axis tick
-In some charts, I noticed that the gap between values was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks shifted significantly when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap even with filters.
 
-### Update the visualization when the dataset change
-Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: Unexpected Error [SQLSTATE:42601]. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
-
-## Results
+### Results
 The completed dashboard can be viewed on Tableau Public: [Bouches-du-Rhône, France House Sales Price Dashboard](https://public.tableau.com/app/profile/khoa8102/viz/bouches-du-rhone-house-sales/Dashboard). Below is a screenshot:
 
 ![Bouches-du-Rhône, France House Sales Price Dashboard](./bouches-du-rhone-house-sales-dashboard.png)
 
-## Key Learnings & Skills Developed
+### Key Learnings & Skills Developed
 
 This project strengthened my data proficiency by enabling me to move beyond tutorials and solve real-world data challenges. Key skills developed include:
 - Explored DuckDB for data transformation and cleaning tasks.
