@@ -2,7 +2,7 @@
 
 ### Context
 In my journey to learn data visualization, I decided to turn theory into practice after reading chapters from *Communicating with Data*. Though insightful, I found the book a bit theoretical, so I supplemented it with Tableau tutorials ([this video](https://www.youtube.com/watch?v=KlAKAarfLRQ&t=276s) and [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y)). While following the tutorial, I made some modest changes based on what I learned from the book.
-We know that simply following the instruction does not enhance the competence, especially when unexpected errors occur. So, in the next phase, I pick a dataset comparable to the one I worked on previously and create the dashboard myself.
+We know that simply following the instruction does not enhance competence, especially when unexpected errors occur. So, in the next phase, I pick a dataset comparable to the one I worked on previously and create the dashboard myself.
 
 ### Exploring the Dataset
 
@@ -16,7 +16,7 @@ During data exploration, I identified key transformations:
 
 ### Data Cleaning and Transformation with DuckDB
 
-This project presented a chance to explore **DuckDB** for data transformation instead of my usual tool, **Pandas**. DuckDB's capabilities allowed for efficient data manipulation using a familiar SQL syntax. Here’s a sample of the data cleaning workflow:
+This project presented a chance to explore **DuckDB** for data transformation instead of my usual tool, Pandas. DuckDB's capabilities allowed for efficient data manipulation using a familiar SQL syntax. Here’s a sample of the data cleaning workflow:
 
 ```python
 import duckdb
@@ -39,7 +39,7 @@ connection.execute("CREATE TABLE house_sales_data_filtered AS"
 ```
 ### Building the Dashboard
 
-I designed the dashboard with simplicity and clarity in mind, applying key visualization principles from *Communicating with Data*. My aim was to highlight trends and correlations without overwhelming users with information. Here are the dashboard components:
+I designed the dashboard with simplicity and clarity in mind, applying key visualization principles from *Communicating with Data*. I aimed to highlight trends and correlations without overwhelming users with information. Here are the dashboard components:
 
 - **Median Price vs. Number of Transactions Evolution:** This dual-axis chart illustrates the trend in median prices alongside transaction volume over time, allowing users quickly identify potential correlations.
   
@@ -49,15 +49,15 @@ I designed the dashboard with simplicity and clarity in mind, applying key visua
 
 - **Room Count Distribution:** This histogram shows the distribution of properties by room count. To avoid outliers (properties with up to 54 rooms) skewing the histogram, I grouped values above six into a single category, following techniques from [this video](https://www.youtube.com/watch?v=CmOAXW24y2Y).
 
-### Error encountered & Solutions
+### Errors encountered & Solutions
 Of course, it's not funny without unexpected errors. While building the dashboard, I ran into the following problems:
 
-- **Manual Axis Ticks:** In some charts, I noticed that the gap between the ticks in y-axis was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks **shifted significantly** when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap.
+- **Manual Axis Ticks:** In some charts, I noticed that the gap between the ticks in the y-axis was too small, so I applied a manual configuration. While this initially resolved the issue, the ticks **shifted significantly** when filters were applied. To ensure stability, I reverted to automatic mode, which maintained consistent tick gap.
 - **Updating Data Sources in Tableau:** Initially, I didn’t include the `nom_commune` column in the visualization file. After adding it, all the charts broke, as if the data source hadn’t updated correctly. When I clicked the refresh button, I encountered an error: **Unexpected Error [SQLSTATE:42601]**. Adding the file to the workspace a second time resolved the issue, and I removed the duplicate table afterward. This behavior was unexpected.
-- **Dashboard Formatting:** When I added filters after applying the format to other elements on the dashboard, they did not inherit the same color. The funny thing is that I found the place to change the color, but when I closed it, I couldn't find it back.
+- **Dashboard Formatting:** When I added filters after applying the format to other elements on the dashboard, they did not inherit the same color. The funny thing is that I found a place to change the color, but when I closed it, I couldn't find it back.
 
 
-### Results
+### Result
 The completed dashboard can be viewed on Tableau Public: [Bouches-du-Rhône, France House Sales Price Dashboard](https://public.tableau.com/app/profile/khoa8102/viz/bouches-du-rhone-house-sales/Dashboard). Below is a screenshot:
 
 ![Bouches-du-Rhône, France House Sales Price Dashboard](./bouches-du-rhone-house-sales-dashboard.png)
