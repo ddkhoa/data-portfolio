@@ -24,7 +24,7 @@ A quick look at the data revealed several transformations were needed to make it
    | -------- | ------ | ------ | ----- | ----------- |
    | string   | string | date   | int   | string      |
 
-3. **Industry and Location Granularity**: At first, I realized that the employee count in some cases exceeded the population! After checking the dataset closely, I saw that it used different classification levels for industry (A5 and A17) and location (regional and departmental). In addition, I noticed that filtering for specific industries or locations on the INSEE website didn’t alter the content of the exported file!! After identifying this issue, I selected the A5 level for industry and regional level for location to ensure a consistent and accurate analysis.
+3. **Industry and Location Granularity**: At first, I realized that the employee count sometimes exceeded the population! After checking the dataset closely, I saw that it used different classification levels for industry (A5 and A17) and location (regional and departmental). In addition, I noticed that filtering for specific industries or locations on the INSEE website didn’t alter the content of the exported file!! After identifying this issue, I selected the A5 level for industry and the regional level for location to ensure a consistent and accurate analysis.
 
 4. **Filtering Incomplete Data**: Data for some industries contains missing values, especially before 2011. I filtered out incomplete records.
 
@@ -41,7 +41,7 @@ connection.execute(
 )
 ```
 
-And below is the code to filter out irrelevant data, calculate quarter-over-quarter changes, and aggregate total employees across industries by quarter and region.
+Below is the code to filter out irrelevant data, calculate quarter-over-quarter changes, and aggregate total employees across industries by quarter and region.
 
 ```sql
 df = connection.execute(
@@ -56,9 +56,9 @@ df = connection.execute(
 ### Building the Dashboard – Accounting for Semi-Additive Measures
 An important aspect of this dataset was managing the semi-additive nature of the `Value` column, which represents the workforce count for a specific quarter, industry, and location. This value could be summed across industries and regions, but not over time. Here’s how I structured the dashboard to ensure the numbers are presented accurately:
 
-- **Workforce by Region Map**: I filtered the data to show only the last quarter, allowing users to view the most recent workforce distribution. Here, summing by region and industry can be done with `SUM(value)` formula.
+- **Workforce by Region Map**: I filtered the data to show only the last quarter, allowing users to view the most recent workforce distribution. Here, summing by region and industry can be done with the `SUM(value)` formula.
 
-- **Workforce Change from 2011 Q1 to 2024 Q2**: This bar chart shows changes over time by summing workforce `delta` across regions and industries. Like above, using the smallest granularity of time allows me to employ `SUM(dela)` formula. This approach captures regional and industry workforce shifts.
+- **Workforce Change from 2011 Q1 to 2024 Q2**: This bar chart shows changes over time by summing workforce `delta` across regions and industries. Like above, using the smallest granularity of time allows me to employ the `SUM(dela)` formula. This approach captures regional and industry workforce shifts.
 
 - **Workforce Trend Analysis**: I calculated each industry's percentage of the total workforce per quarter using the formula `SUM(value) / SUM(all_industries)`. This calculation works across all regions or within a specific region when filtered, ensuring the dashboard provides accurate comparative insights.
 
@@ -74,6 +74,6 @@ The completed dashboard can be viewed on Tableau Public: [France Workforce Dashb
 
 - **Efficient Transformations in DuckDB**: DuckDB’s SQL syntax enabled me to unpivot tables quickly with `unnest` and make the data transformation process seamless.
 - **Creating Meaningful Metrics**: Using window functions, I calculated quarter-over-quarter changes and total workforce by quarter and region, allowing for a more insightful analysis.
-- **Handling Semi-Additive Measures**: I learned to manage semi-additive measures and determine the correct way to aggregate values across various dimensions..
+- **Handling Semi-Additive Measures**: I learned to manage semi-additive measures and determine the correct way to aggregate values across various dimensions.
 
-This project deepened my understanding of data transformation and visualization, allowing me to present France workforce trends in a clear, impactful way.
+This project deepened my understanding of data transformation and visualization, allowing me to present France's workforce trends in a clear, impactful way.
