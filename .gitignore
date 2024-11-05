@@ -4,4 +4,4 @@
 # tableau temporary files
 */.~*
 
-*/.DS_Store
+.DS_Store
